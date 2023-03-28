@@ -1,0 +1,13 @@
+$theme-white  : #ffffff;
+$theme-dark  : #232323;
+
+.text-white {
+	color: $theme-white;
+}
+.text-gray {
+	color: $theme-dark;
+}
+
+.bg-dark {
+	background-color: #232323;
+}

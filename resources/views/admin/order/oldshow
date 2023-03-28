@@ -1,0 +1,67 @@
+@extends('layouts.admin')
+
+@section('content')
+
+
+
+
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Order Detail</h2>
+                <div class="card">
+                    <div class="card-body">
+                       
+                    <img src="{{$order->product->image}}" class="img-fluid"/>
+                    <p>Product Name: {{$order->product->name}}</p>
+                    <p>Cost: Rs.{{ round($order->price*100/(100-$order->discount),0) }}</p>
+                    <p>Quantity: {{$order->quantity}}</p>
+                    <p>Shipping Fee: Rs.{{$order->shipping_cost}}</p>
+                    <p>Coupon Discount: Rs.{{$order->coupon_discount}}
+                    <p>Discount: {{$order->discount}}%</p>
+
+                    <p>Order Total: Rs.{{ $order->total +$order->shipping_cost }}</p>
+
+
+
+                    </div>
+                    </div>
+                     </div>
+                <div class="col-md-6">
+                
+                <div class="card">
+                  
+                    <div class="card-body">
+                    <h2>Billing Detail</h2>
+                                 <p>Phone: {{$customer->phone}}</p>
+                                    <p>Email: {{$customer->user->email}}</p>
+                                    <p>Street: {{ $customer->street }}</p>
+                                    <p>City: {{ $customer->city }} </p>
+                                    <p>Provience: {{$customer->provience}}</p>
+                                    <p>District: {{ $customer->district}} </p>
+                                    <p>User IP : {{$order->ipaddress}}</p>
+                                    
+                    </div>
+                    
+                    <div class="card-body">
+                    <h2>Shipping Detail</h2>
+                        <p>Phone: {{$customer_shipping->phone}}</p>
+                        <p>Email: {{$customer_shipping->user->email}}</p>
+                        <p>Street: {{ $customer_shipping->street }}</p>
+                        <p>City: {{ $customer_shipping->city }} </p>
+                        <p>Provience: {{$customer_shipping->provience}}</p>
+                        <p>District: {{ $customer_shipping->district}} </p>
+                        <p>User IP : {{$order->ipaddress}}</p>
+
+                    </div>
+                    </div>
+                     </div>
+
+        </div>
+    </div>
+</div>
+
+@endsection

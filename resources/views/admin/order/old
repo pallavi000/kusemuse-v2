@@ -1,0 +1,158 @@
+@extends('layouts.admin')
+
+@section('content')
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Order List</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    @if(auth()->user()->is_admin==1)
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                    @else
+                    <li class="breadcrumb-item"><a href="{{ route('seller.dashboard') }}">Home</a></li>
+                    @endif
+                    <li class="breadcrumb-item active">Order list</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="card-title">Order List</h3>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">Order ID</th>
+                                  
+                                    <th>payment status</th>
+                                    <th>payment Method</th>
+
+                                    <th>Order Status</th>
+                                    <th>Total</th>
+                                    <th>User</th>
+                                    <th>Product</th>
+                                  
+                                    <th> Date</th>
+                                    <th style="width: 40px">Invoice</th>
+                               
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if($orders->count())
+                                @foreach ($orders as $order)
+                                    <tr @if($order->order_status == 'cancelled') class="table-danger" @else class="table-info" @endif>
+                                        <td class="d-flex">
+                                            @if(auth()->user()->is_admin==1)
+                                            <a href="{{ route('admin.order.show', [$order->id]) }}" class="btn btn-sm btn-success mr-1">{{ $order->id }}</a>
+                                           @else
+                                           <a href="{{ route('order.show', [$order->id]) }}" class="btn btn-sm btn-success mr-1"> {{ $order->id }}</a>
+                                            @endif
+                                     
+                                        </td>
+                                    
+                                        <td>
+                                        @if(auth()->user()->is_admin==1)
+                                    <form class="PSform{{ $order->id }}" action="{{ route('admin.order.update', $order->id) }}" method="POST" enctype="multipart/form-data">
+                                        @else
+                                        <form class="PSform{{ $order->id }}" action="{{ route('order.update', $order->id) }}" method="POST" enctype="multipart/form-data">
+                                        @endif
+                                    @csrf
+                                    @method('PUT')
+                                    <select class="PSstatus" name ="payment_status" oid="{{ $order->id }}">
+                                        <option value="pending"  @if($order->opayment_status=="pending")selected @endif>Pending</option>
+                                        <option value ="done"  @if($order->payment_status=="done")selected @endif> Done</option>
+                                    </select>
+                                    </form>
+                                    </td>
+                                    <td>{{$order->payment_method}}</td>
+
+                                    <td>
+                                        @if(auth()->user()->is_admin==1)
+                                    <form class="ODform{{ $order->id }}" action="{{ route('admin.order.update', $order->id) }}" method="POST" enctype="multipart/form-data">
+                                        @else
+                                        <form class="ODform{{ $order->id }}" action="{{ route('order.update', $order->id) }}" method="POST" enctype="multipart/form-data">
+                                        @endif
+                                    @csrf
+                                    @method('PUT')
+                                    <select class="ODstatus" name ="order_status" oid="{{ $order->id }}">
+                                        <option value="pending"  @if($order->order_status=="pending")selected @endif>Pending</option>
+                                        <option value ="shipped"  @if($order->order_status=="shipped")selected @endif> Shipped</option>
+                                        <option value="completed" @if($order->order_status=="completed")selected @endif>Completed</option>
+                                        <option value="cancelled" @if($order->order_status=="cancelled")selected @endif>Cancelled</option>
+
+                                    </select>
+                                    </form>
+                                    </td>
+                                    <td>{{ $order->total }}</td>
+                                    @if($order->user)
+                                    <td>{{ $order->user->name }} </td>
+                                    @else
+                                    <td></td>
+                                    @endif
+                                    <td> 
+                                       {{$order->product->name}}
+                                        </td>
+
+
+            
+                                    <td>{{$order->created_at}}</td>
+
+
+                                        <td class="d-flex">
+                                            @if(auth()->user()->is_admin==1)
+                                            <a href="{{ route('admin.order.invoice', [$order->id]) }}" class="btn btn-sm btn-success mr-1"> <i class="fas fa-eye"></i> </a>
+                                           @else
+                                           <a href="{{ route('seller.order.invoice', [$order->id]) }}" class="btn btn-sm btn-success mr-1"> <i class="fas fa-eye"></i> </a>
+                                            @endif
+                                     
+                                        </td>
+                                       
+                                    </tr>
+                                @endforeach
+                                @else   
+                                    <tr>
+                                        <td colspan="12">
+                                            <h5 class="text-center">No Order found.</h5>
+                                        </td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+$('.ODstatus').on('change',function(e){
+   var a = $(this).attr('oid');
+   $('.ODform'+a).submit();
+})
+$('.PSstatus').on('change',function(e){
+   var a = $(this).attr('oid');
+   $('.PSform'+a).submit();
+})
+
+</script>
+@endsection
+

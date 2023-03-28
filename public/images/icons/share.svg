@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12.023" height="14" viewBox="0 0 12.023 14">
+  <g id="clock" transform="translate(-0.574 0.426)">
+    <g id="Group_10" data-name="Group 10">
+      <g id="curve-arrow" transform="translate(-35.581 -0.426)">
+        <g id="Group_6" data-name="Group 6" transform="translate(36.155 0)">
+          <path id="Path_5" data-name="Path 5" d="M48,4.086,44.1.174a.594.594,0,0,0-.841.839l2.9,2.9H40.21a4.063,4.063,0,0,0-4.055,4.044v5.444a.594.594,0,0,0,1.187,0V7.964A2.873,2.873,0,0,1,40.21,5.106h5.936L43.256,8a.594.594,0,0,0,.841.839L48,4.926A.594.594,0,0,0,48,4.086Z" transform="translate(-36.155 0)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
